@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="hu" lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="author" content="Richard Gaal" />
+		<meta
+			name="description"
+			content="Introduction page about several potato tuber diseases"
+		/>
+		<title>Burgonyagumó-betegségek</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
+
+	<body>
+		<header>
+			<div class="main-container">
+				<h1>
+					<a
+						href="index.html"
+						class="welcome-text"
+						data-hu="Burgonyagumó-betegségek"
+						data-en="Potato Tuber Diseases"
+					>
+					</a>
+				</h1>
+				<div class="language-selector">
+					<select id="language" onchange="changeLanguage(this)">
+						<option value="hu">Magyar</option>
+						<option value="en">English</option>
+					</select>
+				</div>
+			</div>
+			<nav class="navbar">
+				<ul class="navbar-list">
+					<li>
+						<a
+							href="#"
+							class="nav-link"
+							data-target="fungal"
+							data-hu="Gombás betegségek"
+							data-en="Fungal diseases"
+						>
+						</a>
+					</li>
+					<li>
+						<a
+							href="#"
+							class="nav-link"
+							data-target="bacterial"
+							data-hu="Baktériumos betegségek"
+							data-en="Bacterial diseases"
+						>
+						</a>
+					</li>
+					<li>
+						<a
+							href="#"
+							class="nav-link"
+							data-target="viral"
+							data-hu="Vírusos betegségek"
+							data-en="Viral diseases"
+						>
+						</a>
+					</li>
+					<li>
+						<a
+							href="#"
+							class="nav-link"
+							data-target="nematode"
+							data-hu="Fonálférgek által okozott betegségek"
+							data-en="Diseases caused by nematodes"
+						>
+						</a>
+					</li>
+					<li>
+						<a
+							href="#"
+							class="nav-link"
+							data-target="physiological"
+							data-hu="Élettani rendellenességek"
+							data-en="Physiological disorders"
+						>
+						</a>
+					</li>
+					<li>
+						<a
+							href="#"
+							class="nav-link"
+							data-target="other"
+							data-hu="Egyéb betegségek"
+							data-en="Other diseases"
+						>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main class="diseases">
+			<!-- FUNGAL DISEASES -->
+			<section id="fungal-diseases" class="diseases">
+				<article class="card fungal">
+					<figure>
+						<img
+							src="img-fungal/Phytophthora infestans.jpg"
+							alt="Phytophthora infestans"
+						/>
+						<figcaption
+							data-hu="Burgonyavész (Phytophthora infestans)"
+							data-en="Potato late blight (Phytophthora infestans)"
+						></figcaption>
+					</figure>
+				</article>
+				<article class="card fungal">
+					<figure>
+						<img src="img-fungal/Fusarium.JPG" alt="Fusarium" />
+						<figcaption
+							data-hu="Fuzáriumos gumórothadás (Fusarium spp.)"
+							data-en="Fusarium tuber rot (Fusarium spp.)"
+						></figcaption>
+					</figure>
+				</article>
+				<article class="card fungal">
+					<figure>
+						<img
+							src="img-fungal/spongosporas-varasodas2.jpeg"
+							alt="Spongospora subterranea"
+						/>
+						<figcaption
+							data-hu="Spongospórás varasodás (Spongospora subterranea)"
+							data-en="Powdery scab (Spongospora subterranea)"
+						></figcaption>
+					</figure>
+				</article>
+				<article class="card fungal">
+					<figure>
+						<img
+							src="img-fungal/Phytophthora infestans.jpg"
+							alt="Phytophthora infestans"
+						/>
+						<figcaption
+							data-hu="Burgonyavész (Phytophthora infestans)"
+							data-en="Potato late blight (Phytophthora infestans)"
+						></figcaption>
+					</figure>
+				</article>
+				<article class="card fungal">
+					<figure>
+						<img src="img-fungal/Fusarium.JPG" alt="Fusarium" />
+						<figcaption
+							data-hu="Fuzáriumos gumórothadás (Fusarium spp.)"
+							data-en="Fusarium tuber rot (Fusarium spp.)"
+						></figcaption>
+					</figure>
+				</article>
+			</section>
+
+			<button id="prev" data-hu="Előző" data-en="Previous"></button>
+			<button id="next" data-hu="Következő" data-en="Next"></button>
+		</main>
+		<!-- MODAL-->
+		<div id="modal" class="modal hidden">
+			<div class="modal-content">
+				<button class="close-modal">&times;</button>
+				<h2 id="modalTitle"></h2>
+				<p id="modalContent"></p>
+			</div>
+		</div>
+		<div class="overlay hidden"></div>
+		<!-- FOOTER-->
+		<footer class="footer">
+			<div class="footer-content">
+				<div class="footer-text">
+					<p
+						data-hu="&copy; 2025 Burgonyagumó-betegségek. Minden jog fenntartva."
+						data-en="&copy; 2025 Potato Tuber Diseases. All rights reserved."
+					></p>
+				</div>
+				<section class="footer-nav">
+					<ul>
+						<li>
+							<a href="#" id="contactLink" data-hu="Kapcsolat" data-en="Contact"
+								>Kapcsolat</a
+							>
+						</li>
+						<li>
+							<a
+								href="#"
+								id="privacyLink"
+								data-hu="Adatvédelmi irányelvek"
+								data-en="Privacy Policy"
+								>Adatvédelmi irányelvek</a
+							>
+						</li>
+						<li>
+							<a
+								href="#"
+								id="termsLink"
+								data-hu="Felhasználási feltételek"
+								data-en="Terms of Service"
+								>Felhasználási feltételek</a
+							>
+						</li>
+					</ul>
+				</section>
+			</div>
+		</footer>
+		<script src="script.js"></script>
+	</body>
+</html>
