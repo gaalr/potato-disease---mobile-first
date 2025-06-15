@@ -1,2 +1,18 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Force LF line endings for all text files
+* text=auto eol=lf
+
+# Treat images and other binaries properly
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+
+# Language-specific diff settings
+*.md diff=markdown
+*.html diff=html
+*.css diff=css
+*.js diff=javascript
