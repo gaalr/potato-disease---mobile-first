@@ -17,6 +17,8 @@
 	--white: #fff;
 	--gray: #ccc;
 	--box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+	--highlight-red: #e56565;
+	--highlight-red-strong: #b44848;
 }
 
 img {
@@ -75,6 +77,25 @@ header h1 {
 	padding-left: 0.5rem;
 	/* padding-right: 1rem; */
 	/* white-space: nowrap; */
+}
+
+.language-selector select {
+	font-size: 1.1rem;
+	padding: 0.4rem 0.8rem;
+	border-radius: 8px;
+	border: 2px solid var(--primary-color);
+	background-color: var(--white);
+	color: var(--text-color);
+	font-weight: bold;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	transition: border-color 0.3s, background-color 0.3s;
+}
+
+.language-selector select:focus {
+	outline: none;
+	border-color: var(--secondary-color);
+	background-color: #f0f8ff;
 }
 
 .welcome-text {
@@ -257,10 +278,26 @@ button {
 
 .close-modal {
 	position: absolute;
-	top: 10px;
-	right: 15px;
-	font-size: 24px;
+	top: 0;
+	right: 0;
+	transform: translate(0, 0);
+	margin: 0;
+	padding: 0.5rem 1rem;
+	background-color: var(--highlight-red);
+	border: 2px solid var(--text-color);
+	border-radius: 10px;
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: var(--text-color);
 	cursor: pointer;
+	box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.25);
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.close-modal:hover {
+	background-color: var(--highlight-red-strong);
+	transform: translate(10%, -10%);
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 /* || SMALL */
 @media screen and (min-width: 576px) {

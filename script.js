@@ -1,6 +1,10 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function () {
+	// Alapértelmezetten elrejtjük a betegségek szekciót
+	const diseaseSection = document.querySelector('.diseases');
+	if (diseaseSection) diseaseSection.style.display = 'none';
+
 	const cards = document.querySelectorAll('.fungal');
 	const prevButton = document.getElementById('prev');
 	const nextButton = document.getElementById('next');
@@ -9,18 +13,39 @@ document.addEventListener('DOMContentLoaded', function () {
 	const itemsPerPage = 3; // Egyszerre 3 kártya jelenjen meg
 
 	function showCards() {
+		const visibleCards = [];
+
 		// Először elrejtünk minden kártyát
-		cards.forEach((card) => (card.style.display = 'none'));
+		cards.forEach((card) => {
+			card.style.display = 'none';
+		});
 
 		// Majd az aktuális 3-at megjelenítjük
 		for (let i = index; i < index + itemsPerPage && i < cards.length; i++) {
-			cards[i].style.display = 'block';
+			cards[i].style.display = 'inline-block';
+			cards[i].style.verticalAlign = 'top';
+			cards[i].style.marginRight = '1rem';
+			visibleCards.push(cards[i]);
+		}
+
+		// A kártyák szülőelemét flexboxra állítjuk, ha van legalább egy kártya
+		if (cards.length > 0 && cards[0].parentElement) {
+			const parent = cards[0].parentElement;
+			parent.style.display = visibleCards.length > 0 ? 'flex' : '';
+			parent.style.flexDirection = visibleCards.length > 0 ? 'row' : '';
+			parent.style.alignItems = visibleCards.length > 0 ? 'flex-start' : '';
 		}
 
 		// Gombok láthatóságának frissítése
-		prevButton.style.display = index === 0 ? 'none' : 'inline-block';
+		const anyVisible = visibleCards.length > 0;
+		const hasMultiplePages = cards.length > itemsPerPage;
+
+		prevButton.style.display =
+			anyVisible && hasMultiplePages && index > 0 ? 'inline-block' : 'none';
 		nextButton.style.display =
-			index + itemsPerPage >= cards.length ? 'none' : 'inline-block';
+			anyVisible && hasMultiplePages && index + itemsPerPage < cards.length
+				? 'inline-block'
+				: 'none';
 	}
 
 	// Lapozás előre
@@ -39,8 +64,38 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
-	// Kezdeti megjelenítés
-	showCards();
+	// Alapértelmezetten elrejtjük a betegségek szekciót
+	// const diseaseSection = document.querySelector('.diseases');
+	// if (diseaseSection) diseaseSection.style.display = 'none';
+
+	// Menüelemek eseménykezelése — csak a megfelelő szekció jelenjen meg
+	document.querySelectorAll('.nav-link').forEach((link) => {
+		link.addEventListener('click', (e) => {
+			e.preventDefault();
+			const targetId = link.dataset.target;
+			document.querySelectorAll('.diseases').forEach((section) => {
+				section.style.display = 'none';
+			});
+			const targetSection = document.getElementById(targetId);
+			if (targetSection) {
+				targetSection.style.display = 'block';
+				showCards();
+			}
+		});
+	});
+
+	// Kattintás esemény a kártyákra – nagy méretű kép megjelenítése
+	document.querySelectorAll('.card').forEach((card) => {
+		card.addEventListener('click', () => {
+			const img = card.querySelector('img');
+			const caption = card.querySelector('figcaption');
+			if (img) {
+				const title = caption?.textContent || '';
+				const content = `<img src="${img.src}" alt="${img.alt}" style="width: 100%; max-width: 800px; height: auto;">`;
+				showModal(title, content);
+			}
+		});
+	});
 });
 
 // Nyelvváltozás kezelése
