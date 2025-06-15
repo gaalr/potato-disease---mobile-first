@@ -1,26 +1,30 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function () {
-	// Alapértelmezetten elrejtjük a betegségek szekciót
+	// Hide the diseases section by default
 	const diseaseSection = document.querySelector('.diseases');
+	const mainImageContainer = document.querySelector('.main-image-container');
 	if (diseaseSection) diseaseSection.style.display = 'none';
 
-	const cards = document.querySelectorAll('.fungal');
 	const prevButton = document.getElementById('prev');
 	const nextButton = document.getElementById('next');
 
-	let index = 0; // Az első megjelenő elem indexe
-	const itemsPerPage = 3; // Egyszerre 3 kártya jelenjen meg
+	let index = 0; // Index of the first visible item
+	const itemsPerPage = 3; // Show 3 cards at a time
 
 	function showCards() {
+		const visibleSection = document.querySelector('.diseases[style*="block"]');
+		if (!visibleSection) return;
+		const cards = visibleSection.querySelectorAll('.card');
+
 		const visibleCards = [];
 
-		// Először elrejtünk minden kártyát
+		// First hide all cards
 		cards.forEach((card) => {
 			card.style.display = 'none';
 		});
 
-		// Majd az aktuális 3-at megjelenítjük
+		// Then show the current 3 cards
 		for (let i = index; i < index + itemsPerPage && i < cards.length; i++) {
 			cards[i].style.display = 'inline-block';
 			cards[i].style.verticalAlign = 'top';
@@ -28,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			visibleCards.push(cards[i]);
 		}
 
-		// A kártyák szülőelemét flexboxra állítjuk, ha van legalább egy kártya
+		// Set the parent element of cards to flexbox if there is at least one card
 		if (cards.length > 0 && cards[0].parentElement) {
 			const parent = cards[0].parentElement;
 			parent.style.display = visibleCards.length > 0 ? 'flex' : '';
@@ -36,27 +40,26 @@ document.addEventListener('DOMContentLoaded', function () {
 			parent.style.alignItems = visibleCards.length > 0 ? 'flex-start' : '';
 		}
 
-		// Gombok láthatóságának frissítése
+		// Update visibility of buttons
 		const anyVisible = visibleCards.length > 0;
 		const hasMultiplePages = cards.length > itemsPerPage;
 
-		prevButton.style.display =
-			anyVisible && hasMultiplePages && index > 0 ? 'inline-block' : 'none';
-		nextButton.style.display =
-			anyVisible && hasMultiplePages && index + itemsPerPage < cards.length
-				? 'inline-block'
-				: 'none';
+		prevButton.style.display = anyVisible ? 'inline-block' : 'none';
+		nextButton.style.display = anyVisible ? 'inline-block' : 'none';
 	}
 
-	// Lapozás előre
+	// Pagination forward
 	nextButton.addEventListener('click', function () {
+		const visibleSection = document.querySelector('.diseases[style*="block"]');
+		if (!visibleSection) return;
+		const cards = visibleSection.querySelectorAll('.card');
 		if (index + itemsPerPage < cards.length) {
 			index += itemsPerPage;
 			showCards();
 		}
 	});
 
-	// Lapozás vissza
+	// Pagination backward
 	prevButton.addEventListener('click', function () {
 		if (index - itemsPerPage >= 0) {
 			index -= itemsPerPage;
@@ -64,11 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
-	// Alapértelmezetten elrejtjük a betegségek szekciót
-	// const diseaseSection = document.querySelector('.diseases');
-	// if (diseaseSection) diseaseSection.style.display = 'none';
-
-	// Menüelemek eseménykezelése — csak a megfelelő szekció jelenjen meg
+	// Menu item event handling — only the relevant section should be displayed
 	document.querySelectorAll('.nav-link').forEach((link) => {
 		link.addEventListener('click', (e) => {
 			e.preventDefault();
@@ -79,12 +78,15 @@ document.addEventListener('DOMContentLoaded', function () {
 			const targetSection = document.getElementById(targetId);
 			if (targetSection) {
 				targetSection.style.display = 'block';
+				if (mainImageContainer) mainImageContainer.style.display = 'none';
+				document.body.classList.add('disease-view');
+				index = 0;
 				showCards();
 			}
 		});
 	});
 
-	// Kattintás esemény a kártyákra – nagy méretű kép megjelenítése
+	// Click event on cards – show large image
 	document.querySelectorAll('.card').forEach((card) => {
 		card.addEventListener('click', () => {
 			const img = card.querySelector('img');
@@ -98,27 +100,27 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
-// Nyelvváltozás kezelése
+// Language switching handling
 
 /* LANGUAGE SWITCHING */
 function changeLanguage(selectElement) {
 	const language = selectElement.value; // hu or en
 	document.documentElement.lang = language; // Update the lang attribute of the html element
 
-	// Frissítjük az összes elem szövegét, amely rendelkezik data-hu vagy data-en attribútummal
+	// Update the text of all elements that have data-hu or data-en attribute
 	const elements = document.querySelectorAll('[data-hu], [data-en]');
 
 	elements.forEach((element) => {
 		if (language === 'en') {
-			// Ha angolt választunk, az 'data-en' attribútumot használjuk
+			// If English is selected, use the 'data-en' attribute
 			element.textContent = element.getAttribute('data-en');
 		} else {
-			// Ha magyar nyelvet választunk, akkor a 'data-hu' attribútumot használjuk
+			// If Hungarian is selected, use the 'data-hu' attribute
 			element.textContent = element.getAttribute('data-hu');
 		}
 	});
 
-	// Nyilak feliratozása (gombok)
+	// Label the arrows (buttons)
 	const buttons = document.querySelectorAll('button[data-hu], button[data-en]');
 	buttons.forEach((button) => {
 		if (language === 'en') {
@@ -129,11 +131,11 @@ function changeLanguage(selectElement) {
 	});
 }
 
-// Alapértelmezett nyelv beállítása, ha az oldal betöltődik
+// Set default language when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-	const defaultLang = 'hu'; // Alapértelmezett nyelv: magyar
+	const defaultLang = 'hu'; // Default language: Hungarian
 	document.getElementById('language').value = defaultLang;
-	changeLanguage(document.getElementById('language')); // Alapértelmezett nyelv beállítása
+	changeLanguage(document.getElementById('language')); // Set default language
 });
 
 /* MODAL */
